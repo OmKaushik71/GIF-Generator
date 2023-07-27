@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            font-family: inherit
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 1em;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        input {
+            border-radius: 10px;
+            outline: none;
+            font-size: 2rem;
+            padding: 0.25em 1em;
+            font-family: inherit;
+        }
+
+        img {
+            max-width: 70%;
+            height: auto;
+        }
+
+        button {
+            font-family: inherit;
+            padding: 0.5em 1em;
+            border-radius: 10px;
+            border-width: 2px;
+            outline: none;
+            font-size: 1.5rem;
+            font-family: inherit;
+            cursor: pointer;
+            background-color: transparent;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>GIF Generator</h1>
+    <img src="#" alt="gif">
+    <input type="text" placeholder="Search for a GIF">
+    <button>Search</button>
+    <script>
+        const image = document.querySelector('img');
+        const btn = document.querySelector('button');
+        const input = document.querySelector('input');
+        function fetchGIF(query) {
+            if (query == '' || query == null || query == undefined) query = 'cats';
+            fetch(`https://api.giphy.com/v1/gifs/translate?api_key=AHptB1zxuLrkCa3wvr3QhbnY3oP6srCF&s=${query}`, { mode: 'cors' })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((response) => {
+                    console.log(response);
+                    console.log(response.data.images.original.url);
+                    image.src = response.data.images.original.url;
+                })
+
+        }
+        fetchGIF('cats');
+        btn.addEventListener('click', handler);
+        function handler() {
+            console.log(input.value);
+            image.src = '#';
+            fetchGIF(input.value);
+        }
+    </script>
+</body>
+
+</html>
